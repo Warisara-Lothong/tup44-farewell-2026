@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการห้องเรียน - TUP 44 Farewell</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between relative">
+
+    <div class="absolute inset-0 z-0 opacity-15 bg-cover bg-center pointer-events-none" style="background-image: url('../assets/flower-bg.png');"></div>
+
+    <header class="relative z-10 p-6 flex items-center justify-between max-w-6xl mx-auto w-full">
+        <div class="flex items-center space-x-3">
+            <img src="../assets/tup_logo.png" alt="TUP Logo" class="w-10 h-10 object-contain">
+            <span id="roomTitle" class="text-lg font-bold text-pink-400">กำลังโหลดข้อมูลห้อง...</span>
+        </div>
+        <a href="login.html" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-sm transition">
+            ออกจากระบบ
+        </a>
+    </header>
+
+    <main class="relative z-10 flex-1 flex flex-col items-center px-4 py-8 max-w-4xl mx-auto w-full">
+        
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-xl w-full mb-8 backdrop-blur-md">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 id="roomHeading" class="text-2xl font-bold text-white">ห้องเรียน: -</h2>
+                    <p class="text-slate-400 text-sm mt-1">สถานะยอดเงินและสลิปปัจจุบันของคุณ</p>
+                </div>
+                <div id="statusBadge" class="px-4 py-2 rounded-xl text-sm font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                    ⏳ รออัปโหลดสลิป
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-xl w-full backdrop-blur-md">
+            <h3 class="text-xl font-bold mb-4 text-pink-400">📤 อัปโหลดสลิปยืนยันการชำระเงิน</h3>
+            
+            <form id="uploadForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">เลือกรูปภาพสลิป (โอนเงินเข้ากองกลาง)</label>
+                    <input type="file" id="slipFile" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-pink-600 file:text-white hover:file:bg-pink-700 transition">
+                </div>
+
+                <div id="previewContainer" class="hidden mt-4">
+                    <p class="text-sm text-slate-400 mb-2">ตัวอย่างสลิป:</p>
+                    <img id="imagePreview" src="" alt="Preview" class="max-h-64 rounded-xl border border-slate-700 object-contain">
+                </div>
+
+                <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-200">
+                    ยืนยันการส่งสลิปให้แอดมินตรวจสอบ ✨
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="relative z-10 text-center py-6 text-slate-500 text-sm border-t border-slate-900">
+        &copy; 2026 TUP 44 Farewell & Yearbook. All rights reserved.
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomKey = urlParams.get('room') || 'room1';
+        
+        const roomNumber = roomKey.replace('room', '');
+        document.getElementById('roomTitle').innerText = `TUP 44 - ม.6/${roomNumber}`;
+        document.getElementById('roomHeading').innerText = `ห้องเรียน ม.6/${roomNumber}`;
+
+        const slipFile = document.getElementById('slipFile');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+
+        slipFile.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(!slipFile.files[0]) {
+                alert('กรุณาเลือกรูปภาพสลิปก่อนกดส่งครับ');
+                return;
+            }
+            alert('อัปโหลดสลิปสำเร็จ! ระบบได้ส่งข้อมูลให้แอดมินตรวจสอบเรียบร้อยแล้ว');
+            slipFile.value = '';
+            previewContainer.classList.add('hidden');
+        });
+    </script>
+
+</body>
+</html>
