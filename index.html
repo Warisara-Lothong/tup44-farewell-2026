@@ -4,46 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TUP 44 Farewell & Yearbook 2026</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Prompt', sans-serif; }
+        body { font-family: 'Prompt', sans-serif; background-color: #FCE7F0; }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden text-rose-950">
 
-    <div class="absolute inset-0 z-0 opacity-15 bg-cover bg-center pointer-events-none" style="background-image: url('assets/flower-bg.png');"></div>
+    <!-- พื้นหลังลายดอกไม้โทนชมพู -->
+    <div class="absolute inset-0 z-0 opacity-20 bg-cover bg-center pointer-events-none" style="background-image: url('assets/flower-bg.png');"></div>
 
+    <!-- Header -->
     <header class="relative z-10 p-6 flex items-center justify-between max-w-6xl mx-auto w-full">
         <div class="flex items-center space-x-3">
-            <img src="assets/tup_logo.png" alt="TUP Logo" class="w-12 h-12 object-contain">
-            <span class="text-xl font-bold tracking-wider text-pink-400">TUP 44 Farewell</span>
+            <img src="assets/tup_logo.png" alt="TUP Logo" class="w-12 h-12 object-contain drop-shadow-md">
+            <span class="text-xl font-bold tracking-wider text-rose-900">TUP 44 Farewell</span>
         </div>
-        <a href="pages/login.html" class="bg-pink-600 hover:bg-pink-700 text-white px-5 py-2 rounded-full font-medium transition shadow-lg">
+        <a href="pages/login.html" class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-medium transition shadow-md">
             เข้าสู่ระบบ
         </a>
     </header>
 
-    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-12 max-w-4xl mx-auto">
-        <div class="mb-6">
-            <img src="assets/phrakiaw.jpeg" alt="ตราสัญลักษณ์" class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-pink-500 shadow-2xl mb-4">
-        </div>
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-            ยินดีต้อนรับสู่เว็บไซต์อำลา TUP 44
-        </h1>
-        <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-xl">
-            เว็บไซต์รวบรวมความทรงจำ ตรวจสอบสถานะ และระบบส่งสลิปยอดเงินของแต่ละห้องแบบเรียลไทม์
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4">
-            <a href="pages/login.html" class="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg transition transform hover:-scale-105">
+    <!-- Main Content -->
+    <main class="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-center px-6 py-12 max-w-6xl mx-auto gap-12 w-full">
+        
+        <!-- ฝั่งซ้าย: กล่องต้อนรับสไตล์ Canva -->
+        <div class="bg-[#FFF5F7]/90 border-2 border-rose-200 p-8 rounded-3xl shadow-xl max-w-md w-full backdrop-blur-sm text-center">
+            <div class="mb-4">
+                <img src="assets/phrakiaw.jpeg" alt="พระเกี้ยว" class="w-24 h-24 object-cover rounded-full mx-auto border-4 border-rose-300 shadow-md mb-3">
+            </div>
+            <h1 class="text-3xl font-bold mb-3 text-rose-950">ยินดีต้อนรับ</h1>
+            <p class="text-rose-800 text-sm mb-6 leading-relaxed">
+                เว็บไซต์รวบรวมความทรงจำ ตรวจสอบสถานะ และระบบส่งสลิปยอดเงินของแต่ละห้อง TUP 44
+            </p>
+            <a href="pages/login.html" class="block w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg transition transform hover:scale-105">
                 🚀 เข้าสู่ระบบ / ส่งสลิปห้องของคุณ
             </a>
         </div>
+
+        <!-- ฝั่งขวา: แกลเลอรีรูปภาพความทรงจำกรอบคลาสสิก -->
+        <div class="grid grid-cols-2 gap-4 max-w-lg w-full">
+            <div class="bg-[#FFF5F7] p-2 border border-rose-200 rounded-2xl shadow-md rotate-1">
+                <img src="assets/humen.jpeg" alt="กิจกรรม" class="w-full h-40 object-cover rounded-xl">
+            </div>
+            <div class="bg-[#FFF5F7] p-2 border border-rose-200 rounded-2xl shadow-md -rotate-1">
+                <img src="assets/monk.jpeg" alt="บรรยากาศ" class="w-full h-40 object-cover rounded-xl">
+            </div>
+        </div>
+
     </main>
 
-    <footer class="relative z-10 text-center py-6 text-slate-500 text-sm border-t border-slate-900">
+    <!-- Footer -->
+    <main class="relative z-10 text-center py-6 text-rose-800/70 text-sm border-t border-rose-200/50">
         &copy; 2026 TUP 44 Farewell & Yearbook. All rights reserved.
-    </footer>
+    </main>
 
 </body>
 </html>
