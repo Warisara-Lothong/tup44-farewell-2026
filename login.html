@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - TUP 44 Farewell</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between relative">
+
+    <div class="absolute inset-0 z-0 opacity-15 bg-cover bg-center pointer-events-none" style="background-image: url('../assets/flower-bg.png');"></div>
+
+    <header class="relative z-10 p-6 flex items-center justify-between max-w-6xl mx-auto w-full">
+        <a href="../index.html" class="flex items-center space-x-3">
+            <img src="../assets/tup_logo.png" alt="TUP Logo" class="w-10 h-10 object-contain">
+            <span class="text-lg font-bold text-pink-400">TUP 44 Farewell</span>
+        </a>
+        <a href="../index.html" class="text-slate-400 hover:text-white text-sm transition">
+            ← กลับหน้าแรก
+        </a>
+    </header>
+
+    <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
+        <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-2xl shadow-2xl max-w-md w-full backdrop-blur-md">
+            <div class="text-center mb-6">
+                <img src="../assets/phrakiaw.jpeg" alt="ตราสัญลักษณ์" class="w-16 h-16 object-cover rounded-full mx-auto border-2 border-pink-500 mb-3">
+                <h1 class="text-2xl font-bold text-white">เข้าสู่ระบบห้องเรียน</h1>
+                <p class="text-slate-400 text-sm mt-1">เลือกห้องของคุณเพื่อตรวจสอบยอดเงินและส่งสลิป</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">เลือกห้องของคุณ</label>
+                    <select id="roomSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-pink-500 transition">
+                        <option value="" disabled selected>-- เลือกห้องเรียน (ห้อง 1 - 20) --</option>
+                        <script>
+                            for(let i = 1; i <= 20; i++) {
+                                document.write(`<option value="room${i}">ม.6/${i} (ห้อง ${i})</option>`);
+                            }
+                        </script>
+                        <option value="admin">🔒 แอดมิน (ผู้ดูแลระบบ / ตรวจสลิป)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">รหัสผ่าน (Password)</label>
+                    <input type="password" id="passwordInput" placeholder="กรอกรหัสผ่านประจำห้อง" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-pink-500 transition">
+                </div>
+
+                <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-200 mt-2">
+                    เข้าสู่ระบบ 🚀
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="relative z-10 text-center py-6 text-slate-500 text-sm border-t border-slate-900">
+        &copy; 2026 TUP 44 Farewell & Yearbook. All rights reserved.
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const room = document.getElementById('roomSelect').value;
+            const pass = document.getElementById('passwordInput').value;
+
+            if(!room) {
+                alert('กรุณาเลือกห้องก่อนครับ');
+                return;
+            }
+
+            if(room === 'admin') {
+                if(pass === 'admin1234') {
+                    window.location.href = 'admin.html';
+                } else {
+                    alert('รหัสผ่านแอดมินไม่ถูกต้อง!');
+                }
+            } else {
+                window.location.href = 'room.html?room=' + room;
+            }
+        });
+    </script>
+
+</body>
+</html>
