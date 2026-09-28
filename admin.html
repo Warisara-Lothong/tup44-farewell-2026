@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบหลังบ้านแอดมิน - TUP 44 Farewell</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between relative">
+
+    <div class="absolute inset-0 z-0 opacity-15 bg-cover bg-center pointer-events-none" style="background-image: url('../assets/flower-bg.png');"></div>
+
+    <header class="relative z-10 p-6 flex items-center justify-between max-w-7xl mx-auto w-full">
+        <div class="flex items-center space-x-3">
+            <img src="../assets/tup_logo.png" alt="TUP Logo" class="w-10 h-10 object-contain">
+            <span class="text-lg font-bold text-pink-400">TUP 44 - Admin Dashboard</span>
+        </div>
+        <a href="login.html" class="bg-red-600/20 text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white px-4 py-2 rounded-xl text-sm transition">
+            ออกจากระบบแอดมิน
+        </a>
+    </header>
+
+    <main class="relative z-10 flex-1 flex flex-col items-center px-4 py-8 max-w-7xl mx-auto w-full">
+        
+        <div class="w-full mb-8">
+            <h1 class="text-3xl font-bold mb-2 text-white">📋 ระบบจัดการและเช็กสถิติสลิปห้องเรียน</h1>
+            <p class="text-slate-400 text-sm">ตารางสรุปข้อมูลสถานะการส่งเงินของทั้ง 20 ห้อง (ฟีล Excel ใช้งานง่ายบน iPad)</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mb-8">
+            <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl shadow-xl backdrop-blur-md">
+                <p class="text-slate-400 text-sm">ห้องที่ส่งครบแล้ว</p>
+                <h3 id="statCompleted" class="text-3xl font-bold text-emerald-400 mt-1">0 / 20</h3>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl shadow-xl backdrop-blur-md">
+                <p class="text-slate-400 text-sm">รอตรวจสอบสลิป</p>
+                <h3 id="statPending" class="text-3xl font-bold text-amber-400 mt-1">0 / 20</h3>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl shadow-xl backdrop-blur-md">
+                <p class="text-slate-400 text-sm">ยังไม่ส่งสลิป</p>
+                <h3 id="statNone" class="text-3xl font-bold text-slate-400 mt-1">20 / 20</h3>
+            </div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl shadow-xl w-full overflow-hidden backdrop-blur-md">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-800/80 text-slate-300 text-sm border-b border-slate-700">
+                            <th class="p-4">ห้องเรียน</th>
+                            <th class="p-4">สลิปที่อัปโหลด</th>
+                            <th class="p-4">สถานะปัจจุบัน</th>
+                            <th class="p-4 text-center">จัดการสถานะ (เปลี่ยนสถานะได้ทันที)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomTableBody" class="divide-y divide-slate-800 text-sm">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="relative z-10 text-center py-6 text-slate-500 text-sm border-t border-slate-900">
+        &copy; 2026 TUP 44 Farewell & Yearbook. All rights reserved.
+    </footer>
+
+    <script>
+        const tableBody = document.getElementById('roomTableBody');
+        
+        let roomData = [];
+        for(let i = 1; i <= 20; i++) {
+            roomData.push({
+                roomNo: i,
+                status: 'none',
+                slipName: '-'
+            });
+        }
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+            let completedCount = 0;
+            let pendingCount = 0;
+            let noneCount = 0;
+
+            roomData.forEach((room, index) => {
+                if(room.status === 'success') completedCount++;
+                else if(room.status === 'pending') pendingCount++;
+                else noneCount++;
+
+                let statusBadge = '';
+                if(room.status === 'success') {
+                    statusBadge = '<span class="px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">✅ ครบถ้วนแล้ว</span>';
+                } else if(room.status === 'pending') {
+                    statusBadge = '<span class="px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30">⏳ รอตรวจสอบ</span>';
+                } else {
+                    statusBadge = '<span class="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700">❌ ยังไม่ส่งสลิป</span>';
+                }
+
+                let row = `
+                    <tr class="hover:bg-slate-800/40 transition">
+                        <td class="p-4 font-semibold text-white">ม.6/${room.roomNo}</td>
+                        <td class="p-4 text-slate-300">${room.slipName}</td>
+                        <td class="p-4">${statusBadge}</td>
+                        <td class="p-4 text-center space-x-2">
+                            <button onclick="updateStatus(${index}, 'pending')" class="bg-amber-600/20 text-amber-400 border border-amber-500/30 hover:bg-amber-600 hover:text-white px-3 py-1.5 rounded-lg text-xs transition">
+                                ตั้งเป็นรอตรวจ
+                            </button>
+                            <button onclick="updateStatus(${index}, 'success')" class="bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600 hover:text-white px-3 py-1.5 rounded-lg text-xs transition">
+                                อนุมัติ (ครบถ้วน)
+                            </button>
+                            <button onclick="updateStatus(${index}, 'none')" class="bg-slate-800 text-slate-400 hover:bg-slate-700 px-3 py-1.5 rounded-lg text-xs transition">
+                                รีเซ็ต
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
+            document.getElementById('statCompleted').innerText = `${completedCount} / 20`;
+            document.getElementById('statPending').innerText = `${pendingCount} / 20`;
+            document.getElementById('statNone').innerText = `${noneCount} / 20`;
+        }
+
+        window.updateStatus = function(index, newStatus) {
+            roomData[index].status = newStatus;
+            roomData[index].slipName = newStatus === 'none' ? '-' : `slip_room_${roomData[index].roomNo}.png`;
+            renderTable();
+        }
+
+        renderTable();
+    </script>
+
+</body>
+</html>
